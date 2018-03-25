@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>{{ SITE_NAME }} | {% block title %}News{% endblock %}</title>
+		<link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+		<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+		<link rel="stylesheet" href="{% static 'styles/main.css' %}">
+		{% block custom_css %}{% endblock %}
+	</head>
+	<body>
+		<div class="container">
+			{% block content %}
+			{% endblock %}
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted">{% now 'Y' %} - {{ SITE_NAME }}</p>
+			</div>
+		</footer>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+		{% block custom_js %}{% endblock %}
+	</body>
+</html>
