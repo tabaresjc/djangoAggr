@@ -1,0 +1,13 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<p>The slave that monitors this site has been notified...: <br>In the meantime you can click any of the following links</p>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="list-group">
+			<a href="{% url 'sites:index' %}" class="list-group-item">Sites</a>
+			<a href="{% url 'sites:summary' %}" class="list-group-item">Summary</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

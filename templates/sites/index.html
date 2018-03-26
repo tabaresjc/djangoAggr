@@ -1,13 +1,12 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-<h1>{{ title }}</h1>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		{% if total %}
 		<div class="list-group">
 			{% for site in sites %}
-			<a href="#" class="list-group-item">{{ site.name }}</a>
+			<a href="{% url 'sites:detail' site.id %}" class="list-group-item">{{ site.name }}</a>
 			{% endfor %}
 		</div>
 		{% else %}
