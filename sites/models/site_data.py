@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models as md
-from .site import Site
+from site import Site
 from django.db.models import Avg, Sum
+from App3MW.helpers.paginator import PaginationHelper
+from App3MW.helpers.timer import TimerHelper
 
 
 class SiteData(md.Model):
@@ -17,28 +19,43 @@ class SiteData(md.Model):
         return str(self.id)
 
     @classmethod
-    def get_data_by_site(cls, site_id, page=1, limit=10):
+    def get_pagination(cls, site_id, page=1, limit=10):
+        # in case the following are string
+        if isinstance(page, basestring):
+            page = int(page)
+
+        if isinstance(limit, basestring):
+            limit = int(limit)
+
         q = cls.objects.filter(site_id=site_id).order_by('-created_at')
-        total = q.count()
-        return q[(page - 1) * limit:limit], total
+
+        return PaginationHelper.get_paginator_items(q, page=page, limit=limit)
 
     @classmethod
     def get_sum_by_site(cls, page=1, limit=10):
-        q = cls.objects.values('site_id') \
-            .annotate(dataA=Sum('dataA'), dataB=Sum('dataB')) \
-            .order_by('-site_id')
+        sites = Site.get_pagination(page, limit)
+        total = Site.objects.count()
 
-        q = q[(page - 1) * limit:limit]
+        items = []
 
-        items = [cls(**d) for d in q]
+        for site in sites:
+            q = cls.objects.filter(site_id=site.id).values_list('dataA', 'dataB')
 
-        # total should be the number of sites available
-        total = Site.get_total()
+            # the results are a collection of tupples [(d1, d2), (d3, d4) ... (dn, dm)]
+            # so  we should be able to use the transpose to get [(d1, d3, ..., dn), (d2, d4, ..., dm)]
+            # then sum each group
+            dataA, dataB = map(sum, zip(*list(q)))
+
+            items.append(cls(site=site, dataA=dataA, dataB=dataB))
 
         return items, total
 
     @classmethod
     def get_sum_sql_by_site(cls, page=1, limit=10):
+        table_name = cls.objects.model._meta.db_table
+        ids = Site.get_ids(page, limit)
+        total = Site.objects.count()
+
         query = ' SELECT' \
                 '   0 AS id,' \
                 '   `site_id`,' \
@@ -46,34 +63,43 @@ class SiteData(md.Model):
                 ' 	SUM(`dataB`) AS dataB' \
                 ' FROM' \
                 '   `{}`' \
+                ' WHERE `site_id` IN({})' \
                 ' GROUP BY `site_id`' \
                 ' ORDER BY `site_id` DESC'
 
-        query = query.format(cls.objects.model._meta.db_table)
-        q = cls.objects.raw(query)
+        query = query.format(table_name,
+                             ",".join(map(str, ids)))
 
-        # total should be the number of sites available
-        total = Site.get_total()
-
-        return q[(page - 1) * limit:limit], total
+        return list(cls.objects.raw(query)), total
 
     @classmethod
     def get_avg_by_site(cls, page=1, limit=10):
-        q = cls.objects.values('site_id') \
-            .annotate(dataA=Avg('dataA'), dataB=Avg('dataB')) \
-            .order_by('-site_id')
+        sites = Site.get_pagination(page, limit)
+        total = Site.objects.count()
 
-        q = q[(page - 1) * limit:limit]
+        items = []
 
-        items = [cls(**d) for d in q]
+        def mean(l):
+            return sum(l) / len(l)
 
-        # total should be the number of sites available
-        total = Site.get_total()
+        for site in sites:
+            q = cls.objects.filter(site_id=site.id).values_list('dataA', 'dataB')
+
+            # the results are a collection of tupples [(d1, d2), (d3, d4) ... (dn, dm)]
+            # so  we should be able to use the transpose to get [(d1, d3, ..., dn), (d2, d4, ..., dm)]
+            # then apply the mean to each group
+            dataA, dataB = map(mean, zip(*list(q)))
+
+            items.append(cls(site=site, dataA=dataA, dataB=dataB))
 
         return items, total
 
     @classmethod
     def get_avg_sql_by_site(cls, page=1, limit=10):
+        table_name = cls.objects.model._meta.db_table
+        ids = Site.get_ids(page, limit)
+        total = Site.objects.count()
+
         query = ' SELECT' \
                 '   0 AS id,' \
                 '   `site_id`,' \
@@ -81,13 +107,11 @@ class SiteData(md.Model):
                 ' 	AVG(`dataB`) AS dataB' \
                 ' FROM' \
                 '   `{}`' \
+                ' WHERE `site_id` IN({})' \
                 ' GROUP BY `site_id`' \
                 ' ORDER BY `site_id` DESC'
 
-        query = query.format(cls.objects.model._meta.db_table)
-        q = cls.objects.raw(query)
+        query = query.format(table_name,
+                             ",".join(map(str, ids)))
 
-        # total should be the number of sites available
-        total = Site.get_total()
-
-        return q[(page - 1) * limit:limit], total
+        return list(cls.objects.raw(query)), total

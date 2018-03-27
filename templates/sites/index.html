@@ -3,12 +3,13 @@
 {% block content %}
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		{% if total %}
-		<div class="list-group">
-			{% for item in items %}
-			<a href="{% url 'sites:detail' item.id %}" class="list-group-item">{{ item.name }}</a>
-			{% endfor %}
-		</div>
+		{% if items %}
+			<div class="list-group">
+				{% for item in items %}
+				<a href="{% url 'sites:detail' item.id %}" class="list-group-item">{{ item.name }}</a>
+				{% endfor %}
+			</div>
+			{% include 'shared/pagination.html' with paginator=items endpoint=request.resolver_match.view_name %}
 		{% else %}
 			{% include 'shared/messages/empty_rows.html' with message='there are no sites in this list.' %}
 		{% endif %}

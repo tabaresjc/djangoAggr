@@ -8,7 +8,7 @@ def set_env():
     setup local environment, env is in ['development', 'testing', 'production']
     """
     if not os.environ.get('DJANGO_SETTINGS_MODULE'):
-        os.environ['DJANGO_SETTINGS_MODULE'] = '3MW.settings.development'
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'App3MW.settings.development'
 
 
 if __name__ == "__main__":

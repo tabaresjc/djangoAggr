@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 s = Site(name='Site %s' % n)
                 s.save()
 
-                for m in xrange(2000):
+                for m in xrange(100):
                     v1 = decimal.Decimal(random.randrange(100, 100000)) / 100
                     v2 = decimal.Decimal(random.randrange(100, 100000)) / 100
                     d = SiteData(site=s, date=date.today(), dataA=v1, dataB=v2)

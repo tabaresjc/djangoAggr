@@ -26,11 +26,11 @@ Take a look at the folder `3MW/settings`, there you can find a list of files tha
 This file should inherit all settings from 3MW/settings/base.py, and override specifics settings when needed.
 
 ```bash
-$ export DJANGO_SETTINGS_MODULE=3MW.settings.development
+$ export DJANGO_SETTINGS_MODULE=App3MW.settings.development
 $ python manage.py runserver
 .
 .
-Django version 1.11, using settings '3MW.settings.development'
+Django version 1.11, using settings 'App3MW.settings.development'
 ```
 ### Setup database
 
@@ -45,5 +45,15 @@ You may start the application with the following command
 $ python manage.py runserver
 .
 .
-Django version 1.11, using settings '3MW.settings.development'
+Django version 1.11, using settings 'App3MW.settings.development'
+```
+
+### Populate the database with test data
+
+You might be able to create some testing data, by running the following command.
+
+```bash
+$ python manage.py test_data
+.
+.
 ```

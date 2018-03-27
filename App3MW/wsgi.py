@@ -12,6 +12,6 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 if not os.environ.get('DJANGO_SETTINGS_MODULE'):
-    os.environ['DJANGO_SETTINGS_MODULE'] = '3MW.settings.development'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'App3MW.settings.development'
 
 application = get_wsgi_application()

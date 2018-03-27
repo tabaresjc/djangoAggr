@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'bootstrap_pagination',
     'sites.apps.SitesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = '3MW.urls'
+ROOT_URLCONF = 'App3MW.urls'
 
 TEMPLATES = [
     {
@@ -66,13 +65,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                '3MW.helpers.context_processor.custom_processor'
-            ],
+                'App3MW.helpers.context_processor.custom_processor'
+            ]
         },
     },
 ]
 
-WSGI_APPLICATION = '3MW.wsgi.application'
+WSGI_APPLICATION = 'App3MW.wsgi.application'
 
 
 # Database

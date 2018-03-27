@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models as md
+from App3MW.helpers.paginator import PaginationHelper
 
 
 class Site(md.Model):
@@ -17,11 +18,26 @@ class Site(md.Model):
         ]
 
     @classmethod
-    def get_sites(cls, page=1, limit=10):
+    def get_pagination(cls, page=1, limit=10):
+        # in case the following are string
+        if isinstance(page, basestring):
+            page = int(page)
+
+        if isinstance(limit, basestring):
+            limit = int(limit)
+
         q = cls.objects.order_by('-created_at')
-        total = q.count()
-        return q[(page - 1) * limit:limit], total
+
+        return PaginationHelper.get_paginator_items(q, page=page, limit=limit)
 
     @classmethod
-    def get_total(cls):
+    def get_ids(cls, page=1, limit=10):
+        q = cls.objects.values_list('id', flat=True).order_by('-created_at')
+
+        offset = (page - 1) * limit
+
+        return list(q[offset:offset+limit])
+
+    @classmethod
+    def get_count(cls):
         return cls.objects.count()

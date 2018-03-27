@@ -1,20 +1,20 @@
 {% extends "layouts/base.html" %}
-
+{% load custom_filters %}
 {% block wide_content %}
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<ul class="nav nav-pills">
-				<li {% if request.resolver_match.view_name == 'sites:sum' %}class="active"{% endif %}>
+				<li {% if request|is_current_page:'sites:sum' %}class="active"{% endif %}>
 					<a href="{% url 'sites:sum' %}">Sum</a>
 				</li>
-				<li {% if request.resolver_match.view_name == 'sites:sum-sql' %}class="active"{% endif %}>
+				<li {% if request|is_current_page:'sites:sum-sql' %}class="active"{% endif %}>
 					<a href="{% url 'sites:sum-sql' %}">Sum (SQL)</a>
 				</li>
-				<li {% if request.resolver_match.view_name == 'sites:avg' %}class="active"{% endif %}>
+				<li {% if request|is_current_page:'sites:avg' %}class="active"{% endif %}>
 					<a href="{% url 'sites:avg' %}">Average</a>
 				</li>
-				<li {% if request.resolver_match.view_name == 'sites:avg-sql' %}class="active"{% endif %}>
+				<li {% if request|is_current_page:'sites:avg-sql' %}class="active"{% endif %}>
 					<a href="{% url 'sites:avg-sql' %}">Average (SQL)</a>
 				</li>
 			</ul>

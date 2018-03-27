@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
@@ -11,10 +12,10 @@
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li {% if request.resolver_match.view_name in 'sites:index sites:detail' %}class="active"{% endif %}>
+				<li {% if request|has_page:'sites:index sites:detail' %}class="active"{% endif %}>
 					<a href="{% url 'sites:index' %}">Sites</a>
 				</li>
-				<li {% if request.resolver_match.view_name in 'sites:sum sites:sum-sql sites:avg sites:avg-sql' %}class="active"{% endif %}>
+				<li {% if request|has_page:'sites:sum sites:sum-sql sites:avg sites:avg-sql' %}class="active"{% endif %}>
 					<a href="{% url 'sites:sum' %}">Summary</a>
 				</li>
 			</ul>

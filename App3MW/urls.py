@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'', include('sites.urls'))
 ]
 
-handler404 = '3MW.helpers.handlers.handler404'
-handler500 = '3MW.helpers.handlers.handler500'
+handler404 = 'App3MW.helpers.handlers.handler404'
+handler500 = 'App3MW.helpers.handlers.handler500'

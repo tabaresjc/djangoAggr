@@ -31,10 +31,24 @@ urlpatterns = [
         views.SummaryView.as_view(),
         name='sum-sql'),
 
+    url(r'^summary/page/(?P<page>\d+)$',
+        views.SummaryView.as_view(),
+        name='sum-paginated'),
+    url(r'^summary-sum-sql/page/(?P<page>\d+)$',
+        views.SummaryView.as_view(),
+        name='sum-sql-paginated'),
+
     url(r'^summary-average$',
         views.SummaryView.as_view(),
         name='avg'),
     url(r'^summary-average-sql$',
         views.SummaryView.as_view(),
         name='avg-sql'),
+
+    url(r'^summary-average/page/(?P<page>\d+)$',
+        views.SummaryView.as_view(),
+        name='avg-paginated'),
+    url(r'^summary-average-sql/page/(?P<page>\d+)$',
+        views.SummaryView.as_view(),
+        name='avg-sql-paginated'),
 ]
