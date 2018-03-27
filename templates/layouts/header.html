@@ -14,8 +14,8 @@
 				<li {% if request.resolver_match.view_name in 'sites:index sites:detail' %}class="active"{% endif %}>
 					<a href="{% url 'sites:index' %}">Sites</a>
 				</li>
-				<li {% if request.resolver_match.view_name in 'sites:summary sites:summary-average' %}class="active"{% endif %}>
-					<a href="{% url 'sites:summary' %}">Summary</a>
+				<li {% if request.resolver_match.view_name in 'sites:sum sites:sum-sql sites:avg sites:avg-sql' %}class="active"{% endif %}>
+					<a href="{% url 'sites:sum' %}">Summary</a>
 				</li>
 			</ul>
 		</div>

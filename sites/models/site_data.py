@@ -23,32 +23,71 @@ class SiteData(md.Model):
         return q[(page - 1) * limit:limit], total
 
     @classmethod
-    def get_summary_by_site(cls, page=1, limit=10):
+    def get_sum_by_site(cls, page=1, limit=10):
         q = cls.objects.values('site_id') \
-                    .annotate(dataA=Sum('dataA'), dataB=Sum('dataB')) \
-                    .order_by('-site_id')
-        total = len(q)
+            .annotate(dataA=Sum('dataA'), dataB=Sum('dataB')) \
+            .order_by('-site_id')
+
         q = q[(page - 1) * limit:limit]
 
-        items = []
+        items = [cls(**d) for d in q]
 
-        for d in q:
-            items.append(cls(**d))
+        # total should be the number of sites available
+        total = Site.get_total()
 
         return items, total
 
     @classmethod
-    def get_summary_average_by_site(cls, page=1, limit=10):
-        q = cls.objects.values('site_id') \
-                    .annotate(dataA=Avg('dataA'), dataB=Avg('dataB')) \
-                    .order_by('-site_id')
+    def get_sum_sql_by_site(cls, page=1, limit=10):
+        query = ' SELECT' \
+                '   0 AS id,' \
+                '   `site_id`,' \
+                ' 	SUM(`dataA`) AS dataA,' \
+                ' 	SUM(`dataB`) AS dataB' \
+                ' FROM' \
+                '   `{}`' \
+                ' GROUP BY `site_id`' \
+                ' ORDER BY `site_id` DESC'
 
-        total = len(q)
+        query = query.format(cls.objects.model._meta.db_table)
+        q = cls.objects.raw(query)
+
+        # total should be the number of sites available
+        total = Site.get_total()
+
+        return q[(page - 1) * limit:limit], total
+
+    @classmethod
+    def get_avg_by_site(cls, page=1, limit=10):
+        q = cls.objects.values('site_id') \
+            .annotate(dataA=Avg('dataA'), dataB=Avg('dataB')) \
+            .order_by('-site_id')
+
         q = q[(page - 1) * limit:limit]
 
-        items = []
+        items = [cls(**d) for d in q]
 
-        for d in q:
-            items.append(cls(**d))
+        # total should be the number of sites available
+        total = Site.get_total()
 
         return items, total
+
+    @classmethod
+    def get_avg_sql_by_site(cls, page=1, limit=10):
+        query = ' SELECT' \
+                '   0 AS id,' \
+                '   `site_id`,' \
+                ' 	AVG(`dataA`) AS dataA,' \
+                ' 	AVG(`dataB`) AS dataB' \
+                ' FROM' \
+                '   `{}`' \
+                ' GROUP BY `site_id`' \
+                ' ORDER BY `site_id` DESC'
+
+        query = query.format(cls.objects.model._meta.db_table)
+        q = cls.objects.raw(query)
+
+        # total should be the number of sites available
+        total = Site.get_total()
+
+        return q[(page - 1) * limit:limit], total

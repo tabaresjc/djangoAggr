@@ -7,11 +7,20 @@ from sites.models import SiteData
 
 class SummaryView(View):
 
+    aggr_functions = {
+        'sites:sum': SiteData.get_sum_by_site,
+        'sites:sum-sql': SiteData.get_sum_sql_by_site,
+        'sites:avg': SiteData.get_avg_by_site,
+        'sites:avg-sql': SiteData.get_avg_sql_by_site,
+    }
+
     def get(self, request, page=1, limit=10):
         page = int(page)
         limit = int(limit)
 
-        items, total = SiteData.get_summary_by_site(page=page, limit=limit)
+        view_name = request.resolver_match.view_name
+
+        items, total = self._calg_aggregation(view_name, page, limit)
 
         return render(request, 'sites/summary.html', {
             'title': 'Summary',
@@ -20,3 +29,7 @@ class SummaryView(View):
             'total': total,
             'items': items
         })
+
+    def _calg_aggregation(self, view_name, page, limit):
+        f = self.aggr_functions[view_name]
+        return f(page=page, limit=limit)

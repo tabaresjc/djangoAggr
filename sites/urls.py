@@ -26,8 +26,15 @@ urlpatterns = [
     # Summary pages
     url(r'^summary$',
         views.SummaryView.as_view(),
-        name='summary'),
+        name='sum'),
+    url(r'^summary-sum-sql$',
+        views.SummaryView.as_view(),
+        name='sum-sql'),
+
     url(r'^summary-average$',
-        views.SummaryAvgView.as_view(),
-        name='summary-average'),
+        views.SummaryView.as_view(),
+        name='avg'),
+    url(r'^summary-average-sql$',
+        views.SummaryView.as_view(),
+        name='avg-sql'),
 ]

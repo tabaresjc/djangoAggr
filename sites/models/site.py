@@ -21,3 +21,7 @@ class Site(md.Model):
         q = cls.objects.order_by('-created_at')
         total = q.count()
         return q[(page - 1) * limit:limit], total
+
+    @classmethod
+    def get_total(cls):
+        return cls.objects.count()
