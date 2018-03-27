@@ -10,9 +10,7 @@
 			{% endfor %}
 		</div>
 		{% else %}
-		<div class="alert alert-warning" role="alert">
-			<strong>Empty records</strong> Sorry, no sites in this list.
-		</div>
+			{% include 'shared/messages/empty_rows.html' with message='there are no sites in this list.' %}
 		{% endif %}
 	</div>
 </div>

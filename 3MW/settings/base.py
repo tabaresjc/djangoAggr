@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_pagination',
     'sites.apps.SitesConfig',
     'django.contrib.admin',
     'django.contrib.auth',

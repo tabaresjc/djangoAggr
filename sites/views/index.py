@@ -7,8 +7,10 @@ from sites.models import Site
 
 class IndexView(View):
 
-    def get(self, request):
-        sites, total = Site.get_sites()
+    def get(self, request, page=1, limit=10):
+        page = int(page)
+
+        sites, total = Site.get_sites(page=page, limit=limit)
 
         return render(request, 'sites/index.html', {
             'title': 'Sites',
