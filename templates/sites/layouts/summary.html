@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %}
+
+{% block wide_content %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<ul class="nav nav-pills">
+				<li {% if request.resolver_match.view_name == 'sites:summary' %}class="active"{% endif %}>
+					<a href="{% url 'sites:summary' %}">Sum</a>
+				</li>
+				<li {% if request.resolver_match.view_name == 'sites:summary-average' %}class="active"{% endif %}>
+					<a href="{% url 'sites:summary-average' %}">Average</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="summary-container">
+		{% block table_info %}{% endblock %}
+	</div>
+</div>
+{% endblock %}

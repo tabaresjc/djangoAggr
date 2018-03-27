@@ -9,11 +9,14 @@ class IndexView(View):
 
     def get(self, request, page=1, limit=10):
         page = int(page)
+        limit = int(limit)
 
-        sites, total = Site.get_sites(page=page, limit=limit)
+        items, total = Site.get_sites(page=page, limit=limit)
 
         return render(request, 'sites/index.html', {
             'title': 'Sites',
+            'page': page,
+            'limit': limit,
             'total': total,
-            'sites': sites
+            'items': items
         })

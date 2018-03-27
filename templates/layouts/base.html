@@ -14,11 +14,13 @@
 	</head>
 	<body>
 		{% include 'layouts/header.html' %}
+		{% block wide_content %}
 		<div class="container">
 			<h1 class="title">{{ title }}</h1>
 			{% block content %}
 			{% endblock %}
 		</div>
+		{% endblock %}
 		<footer class="footer">
 			<div class="container">
 				<p class="text-muted">{% now 'Y' %} - {{ SITE_NAME }}</p>

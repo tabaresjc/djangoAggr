@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models as md
 from .site import Site
+from django.db.models import Avg, Sum
 
 
 class SiteData(md.Model):
@@ -20,3 +21,34 @@ class SiteData(md.Model):
         q = cls.objects.filter(site_id=site_id).order_by('-created_at')
         total = q.count()
         return q[(page - 1) * limit:limit], total
+
+    @classmethod
+    def get_summary_by_site(cls, page=1, limit=10):
+        q = cls.objects.values('site_id') \
+                    .annotate(dataA=Sum('dataA'), dataB=Sum('dataB')) \
+                    .order_by('-site_id')
+        total = len(q)
+        q = q[(page - 1) * limit:limit]
+
+        items = []
+
+        for d in q:
+            items.append(cls(**d))
+
+        return items, total
+
+    @classmethod
+    def get_summary_average_by_site(cls, page=1, limit=10):
+        q = cls.objects.values('site_id') \
+                    .annotate(dataA=Avg('dataA'), dataB=Avg('dataB')) \
+                    .order_by('-site_id')
+
+        total = len(q)
+        q = q[(page - 1) * limit:limit]
+
+        items = []
+
+        for d in q:
+            items.append(cls(**d))
+
+        return items, total

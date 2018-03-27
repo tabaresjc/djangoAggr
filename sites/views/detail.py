@@ -10,6 +10,7 @@ class DetailView(View):
     def get(self, request, site_id, page=1, limit=10):
         site_id = int(site_id)
         page = int(page)
+        limit = int(limit)
 
         site = get_object_or_404(Site, pk=site_id)
 
@@ -19,6 +20,7 @@ class DetailView(View):
             'title': 'Detail Site - %s' % (site.name),
             'site': site,
             'page': page,
+            'limit': limit,
             'total': total,
             'items': items
         })

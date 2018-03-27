@@ -13,7 +13,7 @@ urlpatterns = [
         name='index'),
     url(r'^page/(?P<page>\d+)$',
         views.IndexView.as_view(),
-        name='index_paginated'),
+        name='index-paginated'),
 
     # Detail page & pagination
     url(r'^sites/(?P<site_id>\d+)$',
@@ -21,7 +21,7 @@ urlpatterns = [
         name='detail'),
     url(r'^sites/(?P<site_id>\d+)/page/(?P<page>\d+)$',
         views.DetailView.as_view(),
-        name='detail_paginated'),
+        name='detail-paginated'),
 
     # Summary pages
     url(r'^summary$',
