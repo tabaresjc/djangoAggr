@@ -20,8 +20,36 @@
 			</ul>
 		</div>
 	</div>
+	<div class="row clearfix">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+	        <div class="datepicker-container form-group pull-right">
+				<div class="input-group date" >
+				    <input type="text" class="form-control">
+				    <div class="input-group-addon">
+				        <span class="glyphicon glyphicon-calendar"></span>
+				    </div>
+				</div>
+	        </div>
+	    </div>
+	</div>
 	<div class="summary-container">
 		{% block table_info %}{% endblock %}
 	</div>
 </div>
+{% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" integrity="sha256-WgFzD1SACMRatATw58Fxd2xjHxwTdOqB48W5h+ZGLHA=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block custom_js %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js" integrity="sha256-TueWqYu0G+lYIimeIcMI8x1m14QH/DQVt4s9m/uuhPw=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+	$('.datepicker-container input').datepicker({
+	    format: 'yyyy/mm',
+		startView: 1,
+	    minViewMode: 1,
+	    maxViewMode: 2
+	});
+	</script>
 {% endblock %}
